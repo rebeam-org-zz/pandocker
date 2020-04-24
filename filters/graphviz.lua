@@ -18,7 +18,8 @@ local function file_exists(name)
   end
 end
 
---TODO detect errors
+-- TODO detect errors
+-- TODO test latex
 local formats = {
   html = function(block, layout, id)
     local svg = pandoc.pipe("dot", {"-Tsvg", "-K" .. layout}, block.text)
@@ -45,15 +46,8 @@ return {
         local layout = block.attributes["layout"] or "dot"
         local id = block.identifier
 
-        local f = formats["default"] -- formats[FORMAT] or formats["default"]
+        local f = formats[FORMAT] or formats["default"]
         return f(block, layout, id)
-
-        -- local svg = dot2svg(block.text, layout)
-        
-        -- -- local fname = pandoc.sha1(img) .. "." .. filetype
-        -- -- pandoc.mediabag.insert(fname, mimetype, img)
-        -- -- return pandoc.Para{ pandoc.Str(svg) }
-        -- return pandoc.RawBlock("html", "<div id=\"" .. id .. "\" class=\"graphviz\">" .. svg .. "</div>")
       end
     end
   }
