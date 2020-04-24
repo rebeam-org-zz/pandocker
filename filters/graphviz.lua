@@ -8,16 +8,6 @@ local function has_value (tab, val)
   return false
 end
 
-local function file_exists(name)
-  local f = io.open(name, 'r')
-  if f ~= nil then
-      io.close(f)
-      return true
-  else
-      return false
-  end
-end
-
 -- TODO detect errors
 -- TODO test latex
 local formats = {
@@ -30,17 +20,24 @@ local formats = {
     return pandoc.RawBlock("latex", tex)
   end,
   default = function(block, layout, id)
-    local fname = pandoc.sha1(block.text) .. ".png"
-    if not file_exists(fname) then
-      pandoc.pipe("dot", {"-Tpng", "-K" .. layout, "-o" .. fname}, block.text)
-    end
-    return pandoc.Para({pandoc.Image({}, fname)})
+    local fname = os.tmpname()
+    -- local fname = pandoc.sha1(block.text)
+
+    local fnamelow = fname .. ".lowdpi.png"
+    local fnamehigh = fname .. ".highdpi.png"
+
+    -- dot doesn't embed the dpi in the PNG file
+    pandoc.pipe("dot", {"-Tpng", "-Gdpi=300", "-K" .. layout, "-o" .. fnamelow}, block.text)
+    -- so we reprocess with pngcrush, which may also decrease file size
+    -- pandoc will respect the image dpi, e.g. for docx, to produce nice sharp images at a reasonable size
+    pandoc.pipe("pngcrush", {"-res", "300", fnamelow, fnamehigh}, "")
+
+    return pandoc.Para({pandoc.Image({}, fnamehigh)})
   end
 }
 
 return {
   {
--- Use FORMAT to detect format?
     CodeBlock = function(block)
       if has_value(block.classes, "graphviz") then
         local layout = block.attributes["layout"] or "dot"

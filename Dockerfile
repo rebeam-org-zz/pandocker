@@ -10,7 +10,8 @@ RUN apk --no-cache add \
         fontconfig \
         ttf-liberation \
         font-noto \
-        bash
+        bash \
+        pngcrush
         
 RUN pip install dot2tex pandocfilters pygraphviz
 

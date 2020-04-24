@@ -11,10 +11,6 @@ The some maths on its own:
 
 $$\frac{r^2}{2+1}$$
 
-## Lua filter
-
-{{helloworld}}
-
 ## Examples of Graphviz code block
 
 ### Basic usage
@@ -22,7 +18,7 @@ $$\frac{r^2}{2+1}$$
 ````text
 ```graphviz
 digraph {
-  a -> b;
+  å -> b;
   b -> c;
 }
 ```
@@ -30,7 +26,7 @@ digraph {
 
 ```graphviz
 digraph {
-  a -> b;
+  å -> b;
   b -> c;
 }
 ```
@@ -61,13 +57,16 @@ digraph {
 
 ### Error in code
 
-<!--
+This will produce an error in conversion:
+
+````text
 ```graphviz
 digraph {
   a -- b;
   b -- c;
 }
-``` -->
+```
+````
 
 ## Graphviz
 
