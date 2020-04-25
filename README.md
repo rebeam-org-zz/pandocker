@@ -1,6 +1,6 @@
 # pandocker
 
-Docker container with pandoc and useful plugins, based on [pandoc/latex](https://hub.docker.com/r/pandoc/latex)
+Docker container with pandoc and useful plugins, based on [pandoc/core](https://hub.docker.com/r/pandoc/core)
 
 ## Getting started
 
@@ -8,13 +8,13 @@ Docker container with pandoc and useful plugins, based on [pandoc/latex](https:/
 
 2. Alternatively, in VS Code, you can use the command `Docker Image: Build Image...` to build from `Dockerfile`, then accept default tag `pandocker:latest`.
 
-3. To process a markdown file, use the same style of command as for the parent `pandoc/latex:2.6` image:
+3. To process a markdown file, use the same style of command as for the parent `pandoc/core:2.9.2.1` image:
 
    ```shell
    docker run --rm --volume "`pwd`:/data" --user `id -u`:`id -g` pandocker:latest --standalone --mathjax --lua-filter /filters/graphviz.lua  -H /styles/default-styles-header.html example.md -o out/example.html
    ```
 
-4. For other formats, change the extension of the output file from `.html` to e.g. `.pdf` or `.docx`. Note that docx uses the default pandoc styling in the output, which is quite reasonable. PDF uses latex, and is therefore very latexy - see Caveats below.
+4. For other formats, change the extension of the output file from `.html` to e.g. `.docx`. Note that docx uses the default pandoc styling in the output, which is quite reasonable.
 
 5. To connect to the container if needed for debug, use `docker run -it --volume "`pwd`:/data" --entrypoint "/bin/sh" pandocker:latest`
 
@@ -46,7 +46,7 @@ The remaining arguments go to to `pandoc` running in the container:
 
 1. Have a look at [mathjax-pandoc-filter](https://github.com/lierdakil/mathjax-pandoc-filter) for an alternative for maths - convert to SVG so we don't need mathjax. This would also allow using a completely self-contained html output with `--self-contained` argument to pandoc.
 
-2. Add [puppeteer](https://developers.google.com/web/tools/puppeteer) to the container to allow export of PDF from HTML. This would remove the need to battle latex, and allow use of one set of styling for HTML and PDF.
+2. Add [puppeteer](https://developers.google.com/web/tools/puppeteer) to the container to allow export of PDF from HTML, avoiding the need for latex and using the same styling as HTML.
 
 ## Graphviz filter
 
@@ -62,4 +62,5 @@ The `graphviz.lua` filter is based on [Hakuyume/pandoc-filter-graphviz](https://
 
 ## Caveats
 
+1. To reduce the size of the image, we now use [pandoc/core](https://hub.docker.com/r/pandoc/core) rather than [pandoc/latex](https://hub.docker.com/r/pandoc/latex). If you want to generate PDF files with latex, you need to change the `Dockerfile` back - there is a commented line with correct image name.
 1. In theory it is possible to style the PDF output via latex, e.g. with [eisvogel](https://github.com/Wandmalfarbe/pandoc-latex-template), but to do this you would need to battle texlive - the container is based on [pandoc/latex](https://hub.docker.com/r/pandoc/latex), which is awkward to update because it is set up with the 2019 texlive and points at a repository that appears to have corrupt/mismatched packages that won't install. Otherwise we would be able to use `tlmgr` to install the packages needed for eisvogel to work.
