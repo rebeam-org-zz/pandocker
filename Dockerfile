@@ -10,5 +10,3 @@ RUN apk --no-cache add \
         tar
         
 COPY filters filters
-
-# RUN wget -O eisvogel.tar.gz https://github.com/Wandmalfarbe/pandoc-latex-template/releases/download/v1.4.0/Eisvogel-1.4.0.tar.gz && mkdir eisvogel && tar -xzf eisvogel.tar.gz -C eisvogel
