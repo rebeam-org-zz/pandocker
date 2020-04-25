@@ -1,51 +1,14 @@
-FROM pandoc/latex:2.6
+FROM pandoc/latex:2.9.2.1
 
 RUN apk --no-cache add \
         graphviz \
-        graphviz-dev \
-        py-pip \
-        build-base \
-        python-dev \
-        python \
         fontconfig \
         ttf-liberation \
         font-noto \
-        bash \
-        pngcrush
+        pngcrush \
+        wget \
+        tar
         
-RUN pip install dot2tex pandocfilters pygraphviz
-
 COPY filters filters
 
-# RUN cabal update && cabal install utf8-string && cabal install SHA && cabal install pandoc
-
-# RUN cd ./filters/pandoc-filter-graphviz-master && ghc --make Main.hs -o pandoc-filter-graphviz
-
-# FROM haskell:8.0
-
-# # install latex packages
-# RUN apt-get update -y \
-#   && apt-get install -y -o Acquire::Retries=10 --no-install-recommends \
-#     texlive-latex-base \
-#     texlive-xetex latex-xcolor \
-#     texlive-math-extra \
-#     texlive-latex-extra \
-#     texlive-fonts-extra \
-#     texlive-bibtex-extra \
-#     fontconfig \
-#     lmodern \
-#     pandoc \
-#     graphviz \
-#     dot2tex \
-#     ghc \
-#     libghc-utf8-string-dev \
-#     libghc-sha-dev \
-#     libghc-pandoc-dev 
-
-# WORKDIR /source
-
-# COPY filters filters
-
-# RUN cd ./filters/pandoc-filter-graphviz-master && ghc -v --make Main.hs -o pandoc-filter-graphviz
-
-# ENTRYPOINT [ "pandoc" ]
+# RUN wget -O eisvogel.tar.gz https://github.com/Wandmalfarbe/pandoc-latex-template/releases/download/v1.4.0/Eisvogel-1.4.0.tar.gz && mkdir eisvogel && tar -xzf eisvogel.tar.gz -C eisvogel

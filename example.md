@@ -1,3 +1,9 @@
+---
+geometry:
+- margin=1in
+papersize: A4
+---
+
 # Examples
 
 1. Normal list
@@ -68,28 +74,9 @@ digraph {
 ```
 ````
 
-## Graphviz
+## Tables
 
-Use this:
-
-```text
-digraph G {Hello->World}
-```
-
-to get:
-
-```graphviz
-digraph G {Hello->World}
-```
-
-with accented characters "Äüö":
-
-```graphviz
-digraph G {Hello->"World with Äüö"}
-```
-
-See [(this is a link to whatever)](#whatever) for an example with options `{.graphviz #whatever caption="this is the caption" width=35%}`:
-
-```{.graphviz #whatever caption="this is the caption" width=35%}
-digraph G {Hello->World}
-```
+| Name | Address |
+|---|--------|
+|Bob|White House|
+|Alice|Rabbit Hole|
