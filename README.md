@@ -38,7 +38,7 @@ The remaining arguments go to to `pandoc` running in the container:
 
 3. `--lua-filter /filters/graphviz.lua` - use a LUA filter in the container that provides graphviz diagrams as SVG in html files, embedded PDF in latex (e.g. when producing PDF files), and 300-dpi PNG images in other formats (e.g. docx).
 
-4. `-H /styles/default-styles-header.html` - include the default CSS styles built into the container in html output, where they are embedded as a script tag. Note that this means this css is included in the html, but note that if you use mathjax the html will still contain external links to a CDN.
+4. `-H /styles/default-styles-header.html` - include the default CSS styles built into the container in html output, where they are embedded as a script tag. Note that this means this css is included in the html, but note that if you use mathjax the html will still contain external links to a CDN. See [this page](https://devilgate.org/blog/2012/07/02/tip-using-pandoc-to-create-truly-standalone-html-files/) for more details.
 
 5. Finally, `example.md` should be replaced with your input Markdown file, and `out/example.html` with your output file. Here we use the `out` directory, which is ignored by git.
 
@@ -48,13 +48,17 @@ The remaining arguments go to to `pandoc` running in the container:
 
 2. Add [puppeteer](https://developers.google.com/web/tools/puppeteer) to the container to allow export of PDF from HTML, avoiding the need for latex and using the same styling as HTML.
 
+3. Look at different ways of including SVG from graphviz - would be nice to have `<img>` tags we can style, some approaches [here](https://css-tricks.com/using-svg/).
+
+4. Look at using bootstrap for styling - this would require either a modified bootstrap (e.g. by using LESS to include `.table` styles in `table`), or adding `.table` to output tables - this is hard in pandoc at the moment, but should be possible when attributes are added to table according to [this issue](https://github.com/jgm/pandoc/issues/1024) - looks like the change was merged mid-April 2020 so might not be too long. There's an existing approach [here](https://github.com/htdebeer/paru/blob/master/examples/filters/add_css_class_to_tables.rb), but it uses an odd approach and needs Ruby.
+
 ## Graphviz filter
 
 The `graphviz.lua` filter is based on [Hakuyume/pandoc-filter-graphviz](https://github.com/Hakuyume/pandoc-filter-graphviz), with the following changes:
 
 1. ported to LUA - this is much lighter-weight than having to install the requirements for the original filter. I had trouble compiling it even after installing them.
 2. PNG files are generated at 300dpi, and then compressed and labelled as 300dpi using `pngcrush`. This makes them look much better in e.g. docx format.
-3. We use pdf output for latex rather than dot2tex, again avoiding a dependency on python and more libraries. This seems to work quite well, but may have disadvantages. 
+3. We use pdf output for latex rather than dot2tex, again avoiding a dependency on python and more libraries. This seems to work quite well, but may have disadvantages.
 
 ## References
 
