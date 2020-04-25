@@ -5,8 +5,6 @@ RUN apk --no-cache add \
         fontconfig \
         ttf-liberation \
         font-noto \
-        pngcrush \
-        wget \
-        tar
+        pngcrush
         
 COPY filters filters
