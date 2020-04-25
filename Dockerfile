@@ -7,4 +7,5 @@ RUN apk --no-cache add \
         font-noto \
         pngcrush
         
-COPY filters filters
+COPY filters /filters
+COPY styles /styles
