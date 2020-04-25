@@ -102,3 +102,7 @@ val edit: Edit = new Edit{
 ## Inline code
 
 Inline code looks like `println("Hello")`
+
+## Links
+
+Links should be printed without a different "visited" colour. [semver.org](https://semver.org)
