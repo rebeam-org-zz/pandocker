@@ -11,12 +11,16 @@ Docker container with pandoc and useful plugins, based on [pandoc/core](https://
 3. To process a markdown file, use the same style of command as for the parent `pandoc/core:2.9.2.1` image:
 
    ```shell
-   docker run --rm --volume "`pwd`:/data" --user `id -u`:`id -g` pandocker:latest --standalone --mathjax --lua-filter /filters/graphviz.lua  -H /styles/default-styles-header.html example.md -o out/example.html
+   docker run --rm --volume "`pwd`:/data" --user `id -u`:`id -g` --cap-add=SYS_ADMIN pandocker:latest pandoc --standalone --mathjax --lua-filter /filters/graphviz.lua  -H /styles/default-styles-header.html example.md -o out/example.html
    ```
 
 4. For other formats, change the extension of the output file from `.html` to e.g. `.docx`. Note that docx uses the default pandoc styling in the output, which is quite reasonable.
 
-5. To connect to the container if needed for debug, use `docker run -it --volume "`pwd`:/data" --entrypoint "/bin/sh" pandocker:latest`
+5. To connect to the container if needed for debug:
+
+   ```shell
+   docker run -it --volume "`pwd`:/data" --cap-add=SYS_ADMIN pandocker:latest /bin/sh
+   ```
 
 ## Explanation of command line arguments
 
@@ -28,19 +32,23 @@ The `docker` command line given above has two sections - the first arguments go 
 
 3. ``--user `id -u`:`id -g` `` - run as the same user in the container as the host.
 
-4. `pandocker:latest`
+4. `--cap-add=SYS_ADMIN` is to allow enough permissions for puppeteer to run. This isn't required for pandoc.
 
-The remaining arguments go to to `pandoc` running in the container:
+5. `pandocker:latest` to select the image.
 
-1. `--standalone` - generate a full file (e.g. for html it includes the header).
+The remaining arguments go to the container:
 
-2. `--mathjax` - use mathjax to display maths in html.
+1. `pandoc` to run the pandoc tool. Since we support both pandoc and puppeteer for converting html to pdf we need to specify the command rather than having a fixed entrypoint.
 
-3. `--lua-filter /filters/graphviz.lua` - use a LUA filter in the container that provides graphviz diagrams as SVG in html files, embedded PDF in latex (e.g. when producing PDF files), and 300-dpi PNG images in other formats (e.g. docx).
+2. `--standalone` - generate a full file (e.g. for html it includes the header).
 
-4. `-H /styles/default-styles-header.html` - include the default CSS styles built into the container in html output, where they are embedded as a script tag. Note that this means this css is included in the html, but note that if you use mathjax the html will still contain external links to a CDN. See [this page](https://devilgate.org/blog/2012/07/02/tip-using-pandoc-to-create-truly-standalone-html-files/) for more details.
+3. `--mathjax` - use mathjax to display maths in html.
 
-5. Finally, `example.md` should be replaced with your input Markdown file, and `out/example.html` with your output file. Here we use the `out` directory, which is ignored by git.
+4. `--lua-filter /filters/graphviz.lua` - use a LUA filter in the container that provides graphviz diagrams as SVG in html files, embedded PDF in latex (e.g. when producing PDF files), and 300-dpi PNG images in other formats (e.g. docx).
+
+5. `-H /styles/default-styles-header.html` - include the default CSS styles built into the container in html output, where they are embedded as a script tag. Note that this means this css is included in the html, but note that if you use mathjax the html will still contain external links to a CDN. See [this page](https://devilgate.org/blog/2012/07/02/tip-using-pandoc-to-create-truly-standalone-html-files/) for more details.
+
+6. Finally, `example.md` should be replaced with your input Markdown file, and `out/example.html` with your output file. Here we use the `out` directory, which is ignored by git.
 
 ## TODO
 
@@ -68,3 +76,12 @@ The `graphviz.lua` filter is based on [Hakuyume/pandoc-filter-graphviz](https://
 
 1. To reduce the size of the image, we now use [pandoc/core](https://hub.docker.com/r/pandoc/core) rather than [pandoc/latex](https://hub.docker.com/r/pandoc/latex). If you want to generate PDF files with latex, you need to change the `Dockerfile` back - there is a commented line with correct image name.
 1. In theory it is possible to style the PDF output via latex, e.g. with [eisvogel](https://github.com/Wandmalfarbe/pandoc-latex-template), but to do this you would need to battle texlive - the container is based on [pandoc/latex](https://hub.docker.com/r/pandoc/latex), which is awkward to update because it is set up with the 2019 texlive and points at a repository that appears to have corrupt/mismatched packages that won't install. Otherwise we would be able to use `tlmgr` to install the packages needed for eisvogel to work.
+
+## Notes
+
+```shell
+docker run -i --init --rm --cap-add=SYS_ADMIN \
+   --volume "`pwd`:/data" --user `id -u`:`id -g` \
+   pandocker:latest \
+   node -e "`cat puppeteer-example.js`"
+```
