@@ -6,7 +6,7 @@
 	*  Licensed under the MIT License. See License.txt in the project root for license information.
 	*--------------------------------------------------------------------------------------------*/
  	body {
-		font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif;
+		font-family: "Noto Sans", -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif;
 		font-size: 14px;
 		padding: 0 26px;
 		line-height: 22px;
@@ -79,7 +79,7 @@
 	}
 
 	code {
-		font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+		font-family: "Noto Mono", Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
 		font-size: 1em;
 		line-height: 1.357em;
 	}
@@ -145,6 +145,38 @@
 	-------------------------------------------------------- */
 	.page {
 		page-break-after: always;
+	}
+
+</style>
+<style>
+	/*
+	* Additional styles for RFC8174
+	*/
+	.rfc8174 {
+		/* 
+			This has less browser support than say `font-variant: "small-caps";`, 
+			but has the advantage that it maps normal capital letters to small-caps glyphs. 
+			This means that the text can use capitals so that when viewed as plain text it
+			follows RFC8174, but when displayed in a compliant browser with a font having
+			real small caps, it will appear more attractive. If the browser is not compliant
+			or the font is missing small caps we will get normal caps instead, which is a
+			good fallback.
+			We prefer Noto Sans, which has real small caps, as well as excellent support for
+			other characters and languages.
+		  */
+		font-feature-settings: "c2sc";
+	}
+
+	.rfc8174-must, .rfc8174-must-not, .rfc8174-shall, .rfc8174-shall-not, .rfc8174-required {
+		color: #600;
+	}
+
+	.rfc8174-should, .rfc8174-should-not, .rfc8174-recommended {
+		color: #008;
+	}
+
+	.rfc8174-may, .rfc8174-optional {
+		color: #050;
 	}
 
 </style>

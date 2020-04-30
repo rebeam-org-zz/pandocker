@@ -9,10 +9,6 @@ RUN apk --no-cache add \
         font-noto \
         pngcrush
 
-# filters and styles for use with pandoc
-COPY filters /filters
-COPY styles /styles
-
 # Puppeteer - info here 
 # https://github.com/puppeteer/puppeteer/blob/master/docs/troubleshooting.md#running-puppeteer-in-docker
 
@@ -49,6 +45,10 @@ USER pptruser
 # Puppeteer v3.0.1 works with Chromium 81.
 # Note - moved this after changing user so node_modules belong to pptruser
 RUN cd /pptr && yarn add puppeteer@3.0.1
+
+# filters and styles for use with pandoc
+COPY filters /filters
+COPY styles /styles
 
 # Use dumb-init as entrypoint, see https://github.com/Yelp/dumb-init
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
