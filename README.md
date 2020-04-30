@@ -81,6 +81,8 @@ The `graphviz.lua` filter is based on [Hakuyume/pandoc-filter-graphviz](https://
 
 ## Notes
 
+To run puppeteer example - need to add script to run pandoc then puppeteer.
+
 ```shell
 docker run -i --init --rm --cap-add=SYS_ADMIN \
    --volume "`pwd`:/data" --user `id -u`:`id -g` \
