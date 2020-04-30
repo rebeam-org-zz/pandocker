@@ -11,7 +11,7 @@ Docker container with pandoc and useful plugins, based on [pandoc/core](https://
 3. To process a markdown file, use the same style of command as for the parent `pandoc/core:2.9.2.1` image:
 
    ```shell
-   docker run --rm --volume "`pwd`:/data" --user `id -u`:`id -g` --cap-add=SYS_ADMIN pandocker:latest pandoc --standalone --mathjax --lua-filter /filters/graphviz.lua  -H /styles/default-styles-header.html example.md -o out/example.html
+   docker run --rm --volume "`pwd`:/data" --user `id -u`:`id -g` --cap-add=SYS_ADMIN pandocker:latest pandoc --standalone --mathjax --lua-filter /filters/graphviz.lua --lua-filter /filters/rfc8174.lua -H /styles/default-styles-header.html example.md -o out/example.html
    ```
 
 4. For other formats, change the extension of the output file from `.html` to e.g. `.docx`. Note that docx uses the default pandoc styling in the output, which is quite reasonable.
@@ -46,9 +46,11 @@ The remaining arguments go to the container:
 
 4. `--lua-filter /filters/graphviz.lua` - use a LUA filter in the container that provides graphviz diagrams as SVG in html files, embedded PDF in latex (e.g. when producing PDF files), and 300-dpi PNG images in other formats (e.g. docx).
 
-5. `-H /styles/default-styles-header.html` - include the default CSS styles built into the container in html output, where they are embedded as a script tag. Note that this means this css is included in the html, but note that if you use mathjax the html will still contain external links to a CDN. See [this page](https://devilgate.org/blog/2012/07/02/tip-using-pandoc-to-create-truly-standalone-html-files/) for more details.
+5. `--lua-filter /filters/rfc8174.lua` -  use a LUA filter in the container that styles RFC8174 phrases, see `example.md` for details.
 
-6. Finally, `example.md` should be replaced with your input Markdown file, and `out/example.html` with your output file. Here we use the `out` directory, which is ignored by git.
+6. `-H /styles/default-styles-header.html` - include the default CSS styles built into the container in html output, where they are embedded as a script tag. Note that this means this css is included in the html, but note that if you use mathjax the html will still contain external links to a CDN. See [this page](https://devilgate.org/blog/2012/07/02/tip-using-pandoc-to-create-truly-standalone-html-files/) for more details.
+
+7. Finally, `example.md` should be replaced with your input Markdown file, and `out/example.html` with your output file. Here we use the `out` directory, which is ignored by git.
 
 ## TODO
 
