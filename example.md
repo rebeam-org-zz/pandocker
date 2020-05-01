@@ -134,6 +134,7 @@ The default styles display these classes as follows:
 1. Small caps are displayed when using a font having real small cap glpyhs, in a browser supporting `font-feature-settings: "c2sc";`
 2. If the font or browser do not support small caps, normal capitals are displayed instead.
 3. Absolute requirements are displayed in dark red, recommendations in blue, and options in green.
+4. Emphasis is applied using a faint dashed underline
 
 This produces the following appearance:
 
@@ -142,25 +143,25 @@ Requirements phrases in upper case MUST be converted to an appropriate span or S
 ### RFC8174 Examples
 
 ```text
-1. MUST
-2. MUST NOT
-3. SHALL
-4. SHALL NOT
-5. REQUIRED
-6. SHOULD
-7. SHOULD NOT
-8. RECOMMENDED
-9. MAY
-10. OPTIONAL
+1. Product MUST do something
+2. Product MUST NOT do something else
+3. Product SHALL do something
+4. Product else SHALL NOT do something else
+5. A certain feature is REQUIRED
+6. Product SHOULD do this, unless there's a good reason not to
+7. Product SHOULD NOT do another thing, again unless you can explain why it should (note use of "non RFC8174 should" which is not in upper case)
+8. It is RECOMMENDED to do this
+9. Product MAY implement a feature, but it's fine not to
+10. Another feature is OPTIONAL
 ```
 
-1. MUST
-2. MUST NOT
-3. SHALL
-4. SHALL NOT
-5. REQUIRED
-6. SHOULD
-7. SHOULD NOT
-8. RECOMMENDED
-9. MAY
-10. OPTIONAL
+1. Product MUST do something
+2. Product MUST NOT do something else
+3. Product SHALL do something
+4. Product else SHALL NOT do something else
+5. A certain feature is REQUIRED
+6. Product SHOULD do this, unless there's a good reason not to
+7. Product SHOULD NOT do another thing, again unless you can explain why it should (note use of lower case "should" when we are just using plain English rather than an RFC8174 phrase)
+8. It is RECOMMENDED to do this
+9. Product MAY implement a feature, but it's fine not to
+10. Another feature is OPTIONAL
