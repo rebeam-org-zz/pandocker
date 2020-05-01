@@ -5,7 +5,7 @@ geometry:
 papersize: A4
 ---
 
-# Examples
+## Basic Markdown
 
 1. Normal list
 2. With stuff
@@ -18,7 +18,7 @@ The some maths on its own:
 
 $$\frac{r^2}{2+1}$$
 
-## Examples of Graphviz code block
+## Graphviz
 
 ### Basic usage
 
@@ -106,7 +106,7 @@ Inline code looks like `println("Hello")`
 
 ## Links
 
-Links should be printed without a different "visited" colour. [semver.org](https://semver.org)
+Links should be printed without a different "visited" colour, for better PDF export. [semver.org](https://semver.org)
 
 ## RFC8174
 
