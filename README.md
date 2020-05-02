@@ -105,8 +105,8 @@ Note that to get good results when printing HTML to a PDF, you should specify pa
 
 ## TODO
 
-- [] Have a look at [mathjax-pandoc-filter](https://github.com/lierdakil/mathjax-pandoc-filter) for an alternative for maths - convert to SVG so we don't need mathjax. This would also allow using a completely self-contained html output with `--self-contained` argument to pandoc.
+* [ ] Have a look at [mathjax-pandoc-filter](https://github.com/lierdakil/mathjax-pandoc-filter) for an alternative for maths - convert to SVG so we don't need mathjax. This would also allow using a completely self-contained html output with `--self-contained` argument to pandoc.
 
-- [] Look at different ways of including SVG from graphviz - would be nice to have `<img>` tags we can style, some approaches [here](https://css-tricks.com/using-svg/).
+* [ ] Look at different ways of including SVG from graphviz - would be nice to have `<img>` tags we can style, some approaches [here](https://css-tricks.com/using-svg/).
 
-- [] Look at using bootstrap for styling - this would require either a modified bootstrap (e.g. by using LESS to include `.table` styles in `table`), or adding `.table` to output tables - this is hard in pandoc at the moment, but should be possible when attributes are added to table according to [this issue](https://github.com/jgm/pandoc/issues/1024) - looks like the change was merged mid-April 2020 so might not be too long. There's an existing approach [here](https://github.com/htdebeer/paru/blob/master/examples/filters/add_css_class_to_tables.rb), but it uses an odd approach and needs Ruby.
+* [ ] Look at using bootstrap for styling - this would require either a modified bootstrap (e.g. by using LESS to include `.table` styles in `table`), or adding `.table` to output tables - this is hard in pandoc at the moment, but should be possible when attributes are added to table according to [this issue](https://github.com/jgm/pandoc/issues/1024) - looks like the change was merged mid-April 2020 so might not be too long. There's an existing approach [here](https://github.com/htdebeer/paru/blob/master/examples/filters/add_css_class_to_tables.rb), but it uses an odd approach and needs Ruby.
