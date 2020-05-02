@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Docker container with pandoc and useful plugins",
   "main": "pptr.js",
-  "repository": "https://github.com/trepidacious/pandocker.git",
+  "repository": "https://github.com/rebeam-org/pandocker.git",
   "author": "trepidacious <trepidacious@gmail.com>",
   "license": "MIT",
   "private": false,

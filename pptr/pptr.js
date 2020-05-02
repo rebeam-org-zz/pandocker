@@ -67,7 +67,7 @@ function parseArgv() {
   .demandOption(['input'], 'Please provide an input filename')
   .help()
   .alias('help', 'h')
-  .epilog('https://github.com/trepidacious/pandocker')
+  .epilog('https://github.com/rebeam-org/pandocker')
   .argv;
 }
 
