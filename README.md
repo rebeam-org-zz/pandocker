@@ -72,7 +72,7 @@ The `graphviz.lua` filter is based on [Hakuyume/pandoc-filter-graphviz](https://
 
 ## Styles
 
-The default styles are based on VS Code markdown export, and need some work. Note that to get good results when printing HTML to a PDF, you should specify page size and margins in an `@page` block in CSS, as done in the default styles. If not, page size should default to A4, and margins should be 0 (although chromium appears to be slightly inconsistent on this).
+The default styles are based on VS Code markdown export, and need some work. Note that to get good results when printing HTML to a PDF, you should specify page size and margins in an `@page` block in CSS, as done in the default styles. If not, page size should default to A4, and margins should be 1.5cm (although chromium appears to be slightly inconsistent on this, so it may be best to ensure you specify margins in CSS).
 
 ## References
 
