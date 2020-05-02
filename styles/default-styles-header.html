@@ -11,6 +11,8 @@
 		padding: 0 26px;
 		line-height: 22px;
 		word-wrap: break-word;
+		display: block;
+	    margin: 1em;
 	}
 
 	img {
@@ -107,12 +109,6 @@
 		color: #31679b;
 	}
 
-	@media print {
-		a:link, a:visited, a {
-			color: #31679b;
-		}
-	}
-
 </style>
 <style>
 	/*
@@ -187,5 +183,22 @@
 	.rfc8174-may, .rfc8174-optional {
 		color: #050;
 	}
+
+</style>
+<style>
+	/*
+	* Print styles
+	*/
+
+	@page {
+		margin: 1.5cm;
+	}
+	@media print {
+		a:link, a:visited, a {
+			color: #31679b;
+		}
+	}
+
+	/* TODO - remove normal HTML margins to be replaced with page margins */
 
 </style>
