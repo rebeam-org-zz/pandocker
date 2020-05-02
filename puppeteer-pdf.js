@@ -16,13 +16,18 @@ async function printPDF() {
     args: ['--disable-dev-shm-usage']
     });
 
-  // TODO use generated html file as input
-  // TODO more formatting, e.g. margins?  
-  // TODO use options from https://github.com/puppeteer/puppeteer/blob/v3.0.1/docs/api.md#pagepdfoptions
-  // TODO get papersize from front matter
+  // See https://github.com/puppeteer/puppeteer/blob/v3.0.1/docs/api.md#pagepdfoptions for description of options
+  // TODO get papersize from front matter? Would then change to override styles, allowing PDF and Docx to have the same page size if pandoc uses front matter for docx?
   const page = await browser.newPage();
   await page.goto('file:///data/out/example.html', {waitUntil: 'networkidle2'});
-  await page.pdf({path: '/data/out/example.pdf', format: 'A4'});
+  await page.pdf({
+    path: '/data/out/example.pdf', 
+    format: 'A4', 
+    preferCSSPageSize: true,
+    margin: {
+      top: "1.5cm", left: "1.5cm", right: "1.5cm", bottom: "1.5cm"
+    }
+  });
   await browser.close();
 }
 

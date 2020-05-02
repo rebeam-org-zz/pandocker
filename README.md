@@ -70,6 +70,10 @@ The `graphviz.lua` filter is based on [Hakuyume/pandoc-filter-graphviz](https://
 2. PNG files are generated at 300dpi, and then compressed and labelled as 300dpi using `pngcrush`. This makes them look much better in e.g. docx format.
 3. We use pdf output for latex rather than dot2tex, again avoiding a dependency on python and more libraries. This seems to work quite well, but may have disadvantages.
 
+## Styles
+
+The default styles are based on VS Code markdown export, and need some work. Note that to get good results when printing HTML to a PDF, you should specify page size and margins in an `@page` block in CSS, as done in the default styles. If not, page size should default to A4, and margins should be 0 (although chromium appears to be slightly inconsistent on this).
+
 ## References
 
 * [This page has some nice formatting and a graphviz export script in python](http://nrstickley.com/pandoc/example.html)
@@ -77,7 +81,8 @@ The `graphviz.lua` filter is based on [Hakuyume/pandoc-filter-graphviz](https://
 ## Caveats
 
 1. To reduce the size of the image, we now use [pandoc/core](https://hub.docker.com/r/pandoc/core) rather than [pandoc/latex](https://hub.docker.com/r/pandoc/latex). If you want to generate PDF files with latex, you need to change the `Dockerfile` back - there is a commented line with correct image name.
-1. In theory it is possible to style the PDF output via latex, e.g. with [eisvogel](https://github.com/Wandmalfarbe/pandoc-latex-template), but to do this you would need to battle texlive - the container is based on [pandoc/latex](https://hub.docker.com/r/pandoc/latex), which is awkward to update because it is set up with the 2019 texlive and points at a repository that appears to have corrupt/mismatched packages that won't install. Otherwise we would be able to use `tlmgr` to install the packages needed for eisvogel to work.
+2. In theory it is possible to style the PDF output via latex, e.g. with [eisvogel](https://github.com/Wandmalfarbe/pandoc-latex-template), but to do this you would need to battle texlive - the container is based on [pandoc/latex](https://hub.docker.com/r/pandoc/latex), which is awkward to update because it is set up with the 2019 texlive and points at a repository that appears to have corrupt/mismatched packages that won't install. Otherwise we would be able to use `tlmgr` to install the packages needed for eisvogel to work.
+3. PDF export is in progress, using pupetteer.
 
 ## Notes
 
