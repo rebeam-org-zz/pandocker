@@ -80,7 +80,7 @@ digraph {
 | Id | Name | Requirements | Module | Tests |
 |:--:|-----|--------------|-----|:--:|
 | `r24` | Tables must look nice | Tables styled properly in the document using default style | Styling | `t1` |
-| `r35` | Table smust parse | Tables using pipe markup must be parsed and displayed properly, even with inline maths $RR^2$ or block maths $$\frac{r^2}{2+1}$$ with text after it | Pandoc | `t2` |
+| `r35` | Tables must parse | Tables using pipe markup must be parsed and displayed properly, even with inline maths $RR^2$ or block maths $$\frac{r^2}{2+1}$$ with text after it | Pandoc | `t2` |
 | `r26` | Block maths mustn't break table | This table row should still display properly | Pandoc | `t3` |
 
 ## Highlighted code
