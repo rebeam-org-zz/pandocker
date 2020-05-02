@@ -81,11 +81,15 @@ The `graphviz.lua` filter is based on [Hakuyume/pandoc-filter-graphviz](https://
 
 ## Notes
 
-To run puppeteer example - need to add script to run pandoc then puppeteer.
+Puppeteer for conversion to PDF is a work in progress, to test you need to start a shell in the container:
 
 ```shell
-docker run -i --init --rm --cap-add=SYS_ADMIN \
-   --volume "`pwd`:/data" --user `id -u`:`id -g` \
-   pandocker:latest \
-   node -e "`cat puppeteer-example.js`"
+docker run -it --volume "`pwd`:/data" --cap-add=SYS_ADMIN pandocker:latest /bin/sh
+```
+
+Then in the container:
+
+```shell
+cd /pptr/
+cp /data/puppeteer-pdf.js . && node puppeteer-pdf.js
 ```
