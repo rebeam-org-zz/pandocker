@@ -62,11 +62,11 @@ The remaining arguments go to the container:
 
 3. `--mathjax` - use mathjax to display maths in html.
 
-4. `--lua-filter /filters/graphviz.lua` - use a LUA filter in the container that provides graphviz diagrams as SVG in html files, embedded PDF in latex (e.g. when producing PDF files), and 300-dpi PNG images in other formats (e.g. docx).
+4. `--lua-filter /filters/graphviz.lua` - use the graphviz filter (described later)
 
-5. `--lua-filter /filters/rfc8174.lua` -  use a LUA filter in the container that styles RFC8174 phrases, see `example.md` for details.
+5. `--lua-filter /filters/rfc8174.lua` -  use the RFC8174 filter (described later)
 
-6. `-H /styles/default-styles-header.html` - include the default CSS styles built into the container in html output, where they are embedded as a script tag. Note that this means this css is included in the html, but note that if you use mathjax the html will still contain external links to a CDN. See [this page](https://devilgate.org/blog/2012/07/02/tip-using-pandoc-to-create-truly-standalone-html-files/) for more details.
+6. `-H /styles/default-styles-header.html` - include the default CSS styles built into the container in html output
 
 7. Finally, `example.md` should be replaced with your input Markdown file, and `out/example.html` with your output file. Here we use the `out` directory, which is ignored by git.
 
@@ -88,7 +88,11 @@ This processes [RFC8174](https://tools.ietf.org/html/rfc8174) phrases to add sty
 
 ## Styles
 
-The default styles provided in the `styles` directory are based on VS Code markdown export, and need some work. The format is as a `<style>` tag, which pandoc can insert directly into the HTML `<head>` element. Note that to get good results when printing HTML to a PDF, you should specify page size and margins in an `@page` block in CSS; this is shown in the default styles. If not, page size should default to A4, and margins should be 1.5cm (although chromium appears to be slightly inconsistent on this, so it may be best to ensure you specify margins in CSS).
+The default styles provided in the `styles` directory are based on VS Code markdown export, and need some work.
+
+The format is as a `<style>` tag, which pandoc can insert directly into the HTML `<head>` element. Note that this means this css is included in the html, but note that if you use mathjax the html will still contain external links to a CDN. See [this page](https://devilgate.org/blog/2012/07/02/tip-using-pandoc-to-create-truly-standalone-html-files/) for more details.
+
+Note that to get good results when printing HTML to a PDF, you should specify page size and margins in an `@page` block in CSS; this is shown in the default styles. If not, page size should default to A4, and margins should be 1.5cm (although chromium appears to be slightly inconsistent on this, so it may be best to ensure you specify margins in CSS).
 
 ## References
 
