@@ -42,13 +42,18 @@ RUN addgroup -S pptruser && adduser -S -g pptruser pptruser \
 # Run everything after as non-privileged user.
 USER pptruser
 
-# Puppeteer v3.0.1 works with Chromium 81.
+# See package.json - Puppeteer v3.0.1 works with Chromium 81 as provided by this image.
 # Note - moved this after changing user so node_modules belong to pptruser
-RUN cd /pptr && yarn add puppeteer@3.0.1
+COPY pptr/package.json /pptr/
+COPY pptr/yarn.lock /pptr/
+RUN cd /pptr && yarn install
 
 # filters and styles for use with pandoc
 COPY filters /filters
 COPY styles /styles
+
+# Our main entrypoint, a node script that runs pandoc and then puppeteer as necessary
+COPY pptr/pptr.js /pptr/pptr.js
 
 # Use dumb-init as entrypoint, see https://github.com/Yelp/dumb-init
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
