@@ -1,6 +1,8 @@
 # If you want to export PDF via latex, use pandoc/latex:2.9.2.1
 FROM pandoc/core:2.9.2.1
 
+LABEL maintainer='rebeam.org <pandocker@rebeam.org>'
+
 # graphviz, fonts used by it, and pngcrush to set png dpi (and compress them)
 RUN apk --no-cache add \
         graphviz \
