@@ -1,24 +1,31 @@
 # pandocker
 
-Docker container with pandoc and useful plugins, based on [pandoc/core](https://hub.docker.com/r/pandoc/core)
+Docker container with pandoc and useful plugins, based on [pandoc/core](https://hub.docker.com/r/pandoc/core). 
+
+Available in Docker Hub at [rebeam/pandocker](https://hub.docker.com/repository/docker/rebeam/pandocker).
 
 ## Getting started
 
-1. To build the image, run `docker build --pull --rm -f "Dockerfile" -t pandocker:latest "."`.
+1. Install [Docker](https://www.docker.com/)
 
-2. Alternatively, in VS Code, you can use the command `Docker Image: Build Image...` to build from `Dockerfile`, then accept default tag `pandocker:latest`.
+2. Run the script `pandocker`. This will be slow when run for the first time, as it downloads the image with pandoc etc.
 
-3. Run the script `pandocker.sh`.
+3. `pandocker -h` will show help on options.
 
-4. `pandocker.sh -h` will show help on options.
+4. `pandocker example.md -o out/example` will process the `example.md` file in this project to a set of output files in the `out` directory, named `example.xyz` where `xyz` is the extension for the format.
 
-5. `pandocker.sh example.md -o out/example` will process the `example.md` file in this project to a set of output files in the `out` directory, named `example.xyz` where `xyz` is the extension for the format.
+5. Note that input and output filenames are relative to the current directory, which is made available to the docker container - files outside the current directory cannot be used for input or output, attempting to do this will result in an error since the files will be looked for in the container itself.
 
-6. Note that input and output filenames are relative to the current directory, which is made available to the docker container - files outside the current directory cannot be used for input or output, attempting to do this will result in an error since the files will be looked for in the container itself.
+## Building locally
+
+To build the image locally, run `docker build --pull --rm -f "Dockerfile" -t pandocker:latest "."`. 
+Alternatively, in VS Code, you can use the command `Docker Image: Build Image...` to build from `Dockerfile`, then accept default tag `pandocker:latest`.
+
+The commands in the rest of this readme assume you have built locally - if not, just replace `pandocker:latest` with `rebeam/pandocker:latest` to use the [image on Docker Hub](https://hub.docker.com/repository/docker/rebeam/pandocker).
 
 ## Lower-level commands
 
-The `pandocker.sh` script just runs docker with the `pandocker` image, and uses the container's installation of `pandoc`, `puppeteer` and associated scripts to process input in the current directory of the host. We can also use `pandoc` directly, or directly use the `pptr.js` node script that is called by the `pandocker.sh` script. These commands should help show how pandocker works.
+The `pandocker` script just runs docker with the `rebeam/pandocker` image, and uses the container's installation of `pandoc`, `puppeteer` and associated scripts to process input in the current directory of the host. We can also use our local image to directly run `pandoc` or the `pptr.js` node script that is called by the `pandocker` script. These commands should help show how pandocker works.
 
 1. To process a markdown file using pandoc directly, use the same style of command as for the parent `pandoc/core:2.9.2.1` image:
 
@@ -94,13 +101,27 @@ The format is as a `<style>` tag, which pandoc can insert directly into the HTML
 
 Note that to get good results when printing HTML to a PDF, you should specify page size and margins in an `@page` block in CSS; this is shown in the default styles. If not, page size should default to A4, and margins should be 1.5cm (although chromium appears to be slightly inconsistent on this, so it may be best to ensure you specify margins in CSS).
 
+## Pushing to docher hub
+
+1. Build the image (pull latest images, remove intermediate images, use "Dockerfile", tag to match docker hub repository, in current dir):
+
+   ```shell
+   docker build --pull --rm -f "Dockerfile" -t rebeam/pandocker:latest "."
+   ```
+
+2. Push the image (need to be logged into docker hub):
+
+   ```shell
+   docker push rebeam/pandocker:latest
+   ```
+
 ## References
 
 * [This page has some nice formatting and a graphviz export script in python](http://nrstickley.com/pandoc/example.html)
 
 ## Caveats
 
-1. To reduce the size of the Docker image, we now use [pandoc/core](https://hub.docker.com/r/pandoc/core) rather than [pandoc/latex](https://hub.docker.com/r/pandoc/latex). If you want to generate PDF files with latex, you need to change the `Dockerfile` back - there is a commented line with correct image name. The PDF export provided by `pandocker.sh` uses puppeteer to export the generated HTML.
+1. To reduce the size of the Docker image, we now use [pandoc/core](https://hub.docker.com/r/pandoc/core) rather than [pandoc/latex](https://hub.docker.com/r/pandoc/latex). If you want to generate PDF files with latex, you need to change the `Dockerfile` back - there is a commented line with correct image name. The PDF export provided by the `pandocker` script via `pptr.sh` uses puppeteer to export the generated HTML.
 2. In theory it is possible to style the PDF output via latex, e.g. with [eisvogel](https://github.com/Wandmalfarbe/pandoc-latex-template), but to do this you would need to battle texlive - the container is based on [pandoc/latex](https://hub.docker.com/r/pandoc/latex), which is awkward to update because it is set up with the 2019 texlive and points at a repository that appears to have corrupt/mismatched packages that won't install. Otherwise we would be able to use `tlmgr` to install the packages needed for eisvogel to work.
 
 ## TODO

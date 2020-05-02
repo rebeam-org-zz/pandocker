@@ -1,0 +1,2 @@
+#!/bin/bash
+docker run -it --volume "`pwd`:/data" --cap-add=SYS_ADMIN rebeam/pandocker:latest node /pptr/pptr.js "$@"
