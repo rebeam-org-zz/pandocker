@@ -33,12 +33,14 @@ local function rfc(text, type)
     span.attributes.class = 'rfc8174 rfc8174-' .. type
     return span
   else
-    return pandoc.Strong(s)
+    return pandoc.Strong(text)
   end
 end
 
+-- We only process inlines, where text will be seen as a list of Str and Space elements
 function Inlines (inlines)
-  -- Run through elements of inlines
+  -- Run through elements of inlines, indexing after the end will get nil, which will not match
+  -- the patterns we are looking for
   for i = #inlines, 1, -1 do
     local key = inlines[i]
     local space = inlines[i+1]
