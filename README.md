@@ -16,6 +16,12 @@ Available in Docker Hub at [rebeam/pandocker](https://hub.docker.com/repository/
 
 5. Note that input and output filenames are relative to the current directory, which is made available to the docker container - files outside the current directory cannot be used for input or output, attempting to do this will result in an error since the files will be looked for in the container itself.
 
+6. You may want to add `pandocker` to your path, for example on macOS catalina, edit `~/.zshenv` (you may need to create the file if it doesn't exist) and add the following line:
+
+   ```zsh
+   path+=~/Documents/GitHub/pandocker
+   ```
+
 ## Building locally
 
 To build the image locally, run `docker build --pull --rm -f "Dockerfile" -t pandocker:latest "."`. 
