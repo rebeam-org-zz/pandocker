@@ -44,7 +44,7 @@ The `pandocker` script just runs docker with the `rebeam/pandocker` image, and u
 3. To process using the `pptr.js` node script, which provides an easier syntax and PDF export, use the following, replacing `example.md` with your markdown, this will produce `outputBaseName.pdf`, `outputBaseName.docx` and `outputBaseName.html` files. Try using `-h` for more information on options:
 
    ```shell
-   docker run -it --volume "`pwd`:/data" --cap-add=SYS_ADMIN pandocker:latest node /pptr/pptr.js example.md -o outputBaseName
+   docker run -it --volume "`pwd`:/data" --user `id -u`:`id -g` --cap-add=SYS_ADMIN pandocker:latest node /pptr/pptr.js example.md -o outputBaseName
    ```
 
 4. To connect to the container if needed for debug:
