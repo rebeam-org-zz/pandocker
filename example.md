@@ -1,9 +1,10 @@
 ---
-title: Example Markdown
 geometry:
 - margin=1in
 papersize: A4
 ---
+
+# Example Markdown
 
 ## Basic Markdown
 

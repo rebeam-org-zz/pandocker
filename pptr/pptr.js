@@ -64,6 +64,10 @@ function parseArgv() {
     type: 'boolean',
     default: false
   })
+  .option('pandoc', {
+    description: 'Additional arguments for pandoc, will be passed to all conversion commands, for example --pandoc="--number-sections"',
+    type: 'string'
+  })
   .demandOption(['input'], 'Please provide an input filename')
   .help()
   .alias('help', 'h')
@@ -74,24 +78,31 @@ function parseArgv() {
 function pandoc(input, outputBase, format, argv) {
   var p = "pandoc --standalone";
   
-  const allFeatures = !(argv.mathjax || argv.graphviz || argv.rfc8174 || argv.styles)
+  const allFeatures = !(argv.mathjax || argv.graphviz || argv.rfc8174 || argv.styles);
 
-  if (argv.mathjax    || allFeatures) p += " --mathjax"
-  if (argv.graphviz   || allFeatures) p += " --lua-filter /filters/graphviz.lua"
-  if (argv.rfc8174    || allFeatures) p += " --lua-filter /filters/rfc8174.lua"
-  if (argv.styles     || allFeatures) p += " -H /styles/default-styles-header.html"
+  if (argv.mathjax    || allFeatures) p += " --mathjax";
+  if (argv.graphviz   || allFeatures) p += " --lua-filter /filters/graphviz.lua";
+  if (argv.rfc8174    || allFeatures) p += " --lua-filter /filters/rfc8174.lua";
+  if (argv.styles     || allFeatures) p += " -H /styles/default-styles-header.html";
+  if (argv.pandoc)                    p+= " " + argv.pandoc;
 
-  return util.format("%s %s -o %s.%s", p, input, outputBase, format)
+  return util.format("%s %s -o %s.%s", p, input, outputBase, format);
+}
+
+function withoutExtension(s) {
+  return s.split('.').slice(0, -1).join('.');
 }
 
 async function printPDF() {
 
   const argv = parseArgv();
 
+  // console.log(argv);
+
   const relInput = argv.input;
 
   // TODO use input with extension stripped. Error if we attempt output that overwrites input?
-  const relOutputBase = argv.output ? argv.output : "out";
+  const relOutputBase = argv.output ? argv.output : withoutExtension(relInput);
 
   const input = util.format('/data/%s', relInput);
   const outputBase = util.format('/data/%s', relOutputBase);
