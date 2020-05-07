@@ -90,7 +90,7 @@ function pandoc(input, outputBase, format, argv) {
 }
 
 function withoutExtension(s) {
-  return s.split('.').slice(0, -1).join('.');
+  return s.replace(/\.[^/.]+$/, "");
 }
 
 async function printPDF() {
