@@ -105,9 +105,9 @@ The default styles provided in the `styles` directory are based on VS Code markd
 
 The format is as a `<style>` tag, which pandoc can insert directly into the HTML `<head>` element. Note that this means that the css is included directly in the html to allow it to work standalone, but note that if you use mathjax the html will still contain external links to a CDN. See [this page](https://devilgate.org/blog/2012/07/02/tip-using-pandoc-to-create-truly-standalone-html-files/) for more details.
 
-Note that to get good results when printing HTML to a PDF, you should specify page size and margins in an `@page` block in CSS; this is shown in the default styles. If not, page size should default to A4, and margins should be 1.5cm (although chromium appears to be slightly inconsistent on this, so it may be best to ensure you specify margins in CSS).
+Note that to get good results when printing HTML to a PDF, you should NOT specify page size and margins in an `@page` block in CSS; this unfortunately interferes with headers and footers in PDF. Page size should default to A4, and margins should be 1.5cm by default, with 2.5cm top and bottom margins if header and footer are used.
 
-## Pushing to docher hub
+## Pushing to docker hub
 
 1. Build the image (pull latest images, remove intermediate images, use "Dockerfile", tag to match docker hub repository, in current dir):
 
@@ -133,7 +133,5 @@ Note that to get good results when printing HTML to a PDF, you should specify pa
 ## TODO
 
 * [ ] Have a look at [mathjax-pandoc-filter](https://github.com/lierdakil/mathjax-pandoc-filter) for an alternative for maths - convert to SVG so we don't need mathjax. This would also allow using a completely self-contained html output with `--self-contained` argument to pandoc.
-
-* [ ] Look at different ways of including SVG from graphviz - would be nice to have `<img>` tags we can style, some approaches [here](https://css-tricks.com/using-svg/).
 
 * [ ] Look at using bootstrap for styling - this would require either a modified bootstrap (e.g. by using LESS to include `.table` styles in `table`), or adding `.table` to output tables - this is hard in pandoc at the moment, but should be possible when attributes are added to table according to [this issue](https://github.com/jgm/pandoc/issues/1024) - looks like the change was merged mid-April 2020 so might not be too long. There's an existing approach [here](https://github.com/htdebeer/paru/blob/master/examples/filters/add_css_class_to_tables.rb), but it uses an odd approach and needs Ruby.
