@@ -16,8 +16,18 @@ local dpi = "300"
 local formats = {
   
   html = function(block, layout, id)
-    local svg = pandoc.pipe("dot", {"-Tsvg", "-K" .. layout}, block.text)
-    return pandoc.RawBlock("html", "<div id=\"" .. id .. "\" class=\"graphviz\">" .. svg .. "</div>")
+
+    -- This version embeds SVG tag in a div, however it is remarkably difficult to make this
+    -- responsive. Therefore the preferred version below will produce a .svg file and use it
+    -- in an img tag, which has much better browser support, and can be styled as per raster images
+    -- local svg = pandoc.pipe("dot", {"-Tsvg", "-K" .. layout}, block.text)
+    -- return pandoc.RawBlock("html", "<div id=\"" .. id .. "\" class=\"graphviz\">" .. svg .. "</div>")
+
+    -- Base the filename on element text to avoid conflicts
+    local fname = "graphviz-" .. pandoc.sha1(block.text) .. ".svg"
+    pandoc.pipe("dot", {"-Tsvg", "-K" .. layout, "-o" .. fname}, block.text)
+    return pandoc.Para({pandoc.Image({}, fname)})
+
   end,
 
   latex = function(block, layout, id)
