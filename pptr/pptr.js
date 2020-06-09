@@ -64,6 +64,16 @@ function parseArgv() {
     type: 'boolean',
     default: false
   })
+  .option('footerText', {
+    description: 'Additional text to add to footer in PDF format',
+    type: 'string',
+    default: ""
+  })
+  .option('displayHeaderFooter', {
+    description: 'Enable display of header and footer in PDF format',
+    type: 'boolean',
+    default: false
+  })
   .option('pandoc', {
     description: 'Additional arguments for pandoc, will be passed to all conversion commands, for example --pandoc="--number-sections"',
     type: 'string'
@@ -93,11 +103,26 @@ function withoutExtension(s) {
   return s.replace(/\.[^/.]+$/, "");
 }
 
+function styleHeader(s) {
+  return `<div style="width: 100%; padding: 0.5cm; text-align: center; color: #777; font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif; font-size: 8px; line-height: 12px; word-wrap: break-word; display: block;">`
+            + s +    
+          `</div>`;
+}
+
+function styleFooter(s) {
+  return `<div style="width: 100%; padding: 0.5cm; text-align: center; color: #777; font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif; font-size: 8px; line-height: 12px; word-wrap: break-word; display: block;">`
+            + s +    
+          `</div>`;
+}
+
 async function printPDF() {
 
   const argv = parseArgv();
 
   // console.log(argv);
+
+  const footerText = argv.footerText;
+  const displayHeaderFooter = argv.displayHeaderFooter;
 
   const relInput = argv.input;
 
@@ -144,11 +169,23 @@ async function printPDF() {
     await page.pdf({
       path: util.format('%s.pdf', outputBase), 
       format: 'A4', 
-      preferCSSPageSize: true,
-      margin: {
+      preferCSSPageSize: false,
+      margin: displayHeaderFooter ? {
+        top: "2.5cm", left: "1.5cm", right: "1.5cm", bottom: "2.5cm"
+      } : {
         top: "1.5cm", left: "1.5cm", right: "1.5cm", bottom: "1.5cm"
-      }
+      },
+      displayHeaderFooter: displayHeaderFooter,
+      headerTemplate: styleHeader(`<span class="title"></span>`),
+      footerTemplate: styleFooter(
+        `<span>` + 
+          footerText +            
+        ` <span>
+            Page <span class="pageNumber"></span>/<span class="totalPages"></span>
+          </span>
+        </span>`)
     });
+
     await browser.close();
   }
 

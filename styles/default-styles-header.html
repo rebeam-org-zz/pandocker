@@ -190,10 +190,12 @@
 	* Print styles
 	*/
 
-	@page {
-		size: A4 portait;
-		margin: 1.5cm;
-	}
+	/* Note: 
+	 * Recommended NOT to set @page styles here, since we override these in puppeteer 
+	 * to produce PDF, and setting them in CSS can interfer with header/footer, even 
+	 * when we try to ignore them 
+	 */
+	
 	@media print {
 		a:link, a:visited, a {
 			color: #31679b;
