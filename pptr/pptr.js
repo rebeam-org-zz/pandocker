@@ -164,6 +164,7 @@ async function printPDF() {
 
     // See https://github.com/puppeteer/puppeteer/blob/v3.0.1/docs/api.md#pagepdfoptions for description of options
     // TODO get papersize from front matter? Would then change to override styles, allowing PDF and Docx to have the same page size if pandoc uses front matter for docx?
+    // TODO us something like "position: absolute; right: 1.5cm;" for page number span, to get it right aligned?
     const page = await browser.newPage();
     await page.goto(util.format('file://%s.html', htmlOutputBase), {waitUntil: 'networkidle2'});
     await page.pdf({
