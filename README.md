@@ -1,6 +1,6 @@
 # pandocker
 
-Docker container with pandoc and useful plugins, based on [pandoc/core](https://hub.docker.com/r/pandoc/core). 
+Docker container with pandoc and useful plugins, based on [pandoc/core](https://hub.docker.com/r/pandoc/core).
 
 Available in Docker Hub at [rebeam/pandocker](https://hub.docker.com/repository/docker/rebeam/pandocker).
 
@@ -24,7 +24,7 @@ Available in Docker Hub at [rebeam/pandocker](https://hub.docker.com/repository/
 
 ## Building locally
 
-To build the image locally, run `docker build --pull --rm -f "Dockerfile" -t pandocker:latest "."`. 
+To build the image locally, run `docker build --pull --rm -f "Dockerfile" -t pandocker:latest "."`.
 Alternatively, in VS Code, you can use the command `Docker Image: Build Image...` to build from `Dockerfile`, then accept default tag `pandocker:latest`.
 
 The commands in the rest of this readme assume you have built locally - if not, just replace `pandocker:latest` with `rebeam/pandocker:latest` to use the [image on Docker Hub](https://hub.docker.com/repository/docker/rebeam/pandocker).
